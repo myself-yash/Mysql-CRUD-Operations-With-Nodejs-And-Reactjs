@@ -1,0 +1,31 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports: 
+      - 5000:5000  
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:3000
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports: 
+      - 3000:3000  
+    depends_on:
+      - db
+
+
+    env_file:
+      - path: ./secrets/backend.env
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3300:3306"
+    env_file:
+      - path: ./secrets/db.env
