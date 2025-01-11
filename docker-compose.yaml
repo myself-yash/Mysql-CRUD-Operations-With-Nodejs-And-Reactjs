@@ -19,15 +19,15 @@ services:
     depends_on:
       - db
     environment:
-      - PORT: "${PORT}"
-      - DB_HOST: db
-      - DB_USER: "${DB_USER}"
-      - DB_PASSWORD: "${DB_PASSWORD}"
-      - DB_DATABASE: "${DB_DATABASE}"
-      - DB_WAITFORCONNECTIONS: "${DB_WAITFORCONNECTIONS}"
-      - DB_CONNECTIONLIMIT: "${DB_CONNECTIONLIMIT}"
-      - DB_QUEUELIMIT: "${DB_QUEUELIMIT}"
-      - DB_TABLENAME: "${DB_TABLENAME}"
+      - PORT=${PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_WAITFORCONNECTIONS=${DB_WAITFORCONNECTIONS}
+      - DB_CONNECTIONLIMIT=${DB_CONNECTIONLIMIT}
+      - DB_QUEUELIMIT=${DB_QUEUELIMIT}
+      - DB_TABLENAME=${DB_TABLENAME}
 
   db:
     image: mysql:8.0
