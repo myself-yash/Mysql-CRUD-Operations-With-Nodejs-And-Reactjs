@@ -1,11 +1,11 @@
-//importing express, environmental variables, bodyparser, router, database connection function and declaring them in a varibale to be using it in our index.js file
+//importing express, environmental variables, bodyparser, router, database connection function and declaring them in a variable to be using it in our index.js file
 const express = require('express');
 const dotenv = require('dotenv');
 const ConnectDB = require('./db/ConnectDB');
 const app = express();
 const router = require('./routes/DBOperRoutes');
 const bodyParser = require('body-parser');
-const cors = require("cors")
+const cors = require("cors");
 dotenv.config();
 //using the port in environmental variable or 5000
 const port = process.env.PORT || 5000;
@@ -14,7 +14,14 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors())
+
+// Allow all origins and domains for CORS
+app.use(cors({
+    origin: '*', // Allows all domains and origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allows common HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allows specific headers
+}));
+
 // initialize the database connection pool
 let pool;
 
