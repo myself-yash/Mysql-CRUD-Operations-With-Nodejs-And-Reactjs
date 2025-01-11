@@ -25,7 +25,7 @@ jobs:
           cd ~/app || git clone https://github.com/myself-yash/Mysql-CRUD-Operations-With-Nodejs-And-Reactjs.git ~/app
           cd ~/app
           git pull origin main
-          cp .env app/
+          cp ../.env .
         EOF
     - name: Deploy Docker Containers
       run: |
