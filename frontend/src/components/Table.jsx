@@ -1,4 +1,4 @@
-//importing libraries, functional components for using them in a table which will show data from server
+// Importing libraries, functional components for using them in a table which will show data from server
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
@@ -6,46 +6,49 @@ import EditUserModal from "./modals/EditUserModal";
 import CreateUserModal from "./modals/CreateUserModal";
 import DeleteUserModal from "./modals/DeleteUserModal";
 
-//creation of the parent functional component which will be pased to app.jsx
+// Creation of the parent functional component which will be passed to app.jsx
 function Table() {
-  //using use state, use ref for state variables and ref to track if fetch has already been attempted
+  // Using useState, useRef for state variables and ref to track if fetch has already been attempted
   const [users, setUsers] = useState([]);
   const hasFetchedUsers = useRef(false);
 
-  //async await useEffect function for fetching data from server
+  // Async await useEffect function for fetching data from server
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://172.31.0.154:3000");
-        //setting the empty array as a json object of users got from the server
+        // Use the REACT_APP_BACKEND_URL from environment variables
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
+        const response = await axios.get(`${backendUrl}/users`);
+        
+        // Setting the empty array as a JSON object of users got from the server
         setUsers(response.data);
 
-        //using the useRef current which is the same as initialized untill changes
+        // Using the useRef current which is the same as initialized until changes
         if (!hasFetchedUsers.current) {
           toast.success("Data Fetched");
-          hasFetchedUsers.current = true; // set the ref to true after first fetch
+          hasFetchedUsers.current = true; // Set the ref to true after first fetch
         }
       } catch (error) {
         console.log("There was an error fetching the users!", error);
 
-        //if we haven't fetched it stay as it is
+        // If we haven't fetched it, stay as it is
         if (!hasFetchedUsers.current) {
           toast.error("Error Fetching Data");
-          hasFetchedUsers.current = true; // set the ref to true after first fetch attempt
+          hasFetchedUsers.current = true; // Set the ref to true after first fetch attempt
         }
       }
     };
 
-    //calling the function here
+    // Calling the function here
     fetchUsers();
   }, []);
 
-  //after adding or creating a new user we normally would have to manually reload the page but with this function we just add the created user at the last of the fetched json object which we saved as an array
+  // After adding or creating a new user, we normally would have to manually reload the page but with this function, we just add the created user at the last of the fetched JSON object which we saved as an array
   const addUser = (user) => {
     setUsers((prevUsers) => [...prevUsers, user]);
   };
 
-  //using bootstrap pre built components and modal components
+  // Using bootstrap pre-built components and modal components
   return (
     <>
       <Toaster richColors closeButton />
@@ -84,6 +87,5 @@ function Table() {
   );
 }
 
-
-//exporting the component to be using it in the app.jsx
+// Exporting the component to be using it in the app.jsx
 export default Table;

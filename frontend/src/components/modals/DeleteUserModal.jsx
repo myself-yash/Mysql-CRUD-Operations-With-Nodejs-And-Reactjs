@@ -22,9 +22,10 @@ function DeleteUserModal() {
     }
     try {
       //delete req to the server with data payload
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
       const res = await axios.request({
         method: "delete",
-        url: "http://172.31.0.154:3000",
+        url: `${backendUrl}/users`,
         data: { id }
       });
 

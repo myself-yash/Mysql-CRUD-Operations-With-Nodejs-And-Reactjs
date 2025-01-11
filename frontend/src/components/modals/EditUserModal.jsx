@@ -34,7 +34,8 @@ function EditUserModal() {
     }
     try {
       //put req to server
-      const res = await axios.put(`http://172.31.0.154:3000`, {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
+      const res = await axios.put(`${backendUrl}/users`, {
         id,
         name,
         email

@@ -4,23 +4,25 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports: 
-      - 5000:5000  
+      - "5000:5000"  # Map frontend container port 5000 to the host
     depends_on:
       - backend
     environment:
-      - REACT_APP_BACKEND_URL=http://backend:3000
+      - REACT_APP_BACKEND_URL=http://backend:3000  # Point to the backend service
+    networks:
+      - app-network
 
   backend:
     build:
       context: ./server
       dockerfile: Dockerfile
     ports: 
-      - 3000:3000  
+      - "3000:3000"  # Map backend container port 3000 to the host
     depends_on:
       - db
     environment:
       - PORT=${PORT}
-      - DB_HOST=${DB_HOST}
+      - DB_HOST=db  # Reference the db service name directly
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${DB_DATABASE}
@@ -28,14 +30,21 @@ services:
       - DB_CONNECTIONLIMIT=${DB_CONNECTIONLIMIT}
       - DB_QUEUELIMIT=${DB_QUEUELIMIT}
       - DB_TABLENAME=${DB_TABLENAME}
+    networks:
+      - app-network
 
   db:
     image: mysql:8.0
     ports:
-      - "3300:3306"
+      - "3306:3306"  # Map MySQL container port to the host
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_NAME}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}      
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_NAME}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD} 
+    networks:
+      - app-network
 
+networks:
+  app-network:
+    driver: bridge
