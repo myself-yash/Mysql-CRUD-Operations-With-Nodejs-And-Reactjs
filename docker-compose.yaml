@@ -18,14 +18,24 @@ services:
       - 3000:3000  
     depends_on:
       - db
-
-
-    env_file:
-      - path: ./secrets/backend.env
+    environment:
+      - PORT=${PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_WAITFORCONNECTIONS=${DB_WAITFORCONNECTIONS}
+      - DB_CONNECTIONLIMIT=${DB_CONNECTIONLIMIT}
+      - DB_QUEUELIMIT=${DB_QUEUELIMIT}
+      - DB_TABLENAME=${DB_TABLENAME}
 
   db:
     image: mysql:8.0
     ports:
       - "3300:3306"
-    env_file:
-      - path: ./secrets/db.env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_NAME}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}      
+
