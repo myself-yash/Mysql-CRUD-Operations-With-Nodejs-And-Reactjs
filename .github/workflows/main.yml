@@ -29,5 +29,5 @@ jobs:
         ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           cd ~/app
           docker-compose down
-          docker-compose --env-file ./secrets/backend.env --env-file ./secrets/db.env up
+          docker-compose --env-file ./secrets/backend.env --env-file ./secrets/db.env up -d
         EOF
