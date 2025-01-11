@@ -16,7 +16,7 @@ function Table() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://backend:3000");
+        const response = await axios.get(process.env.REACT_APP_BACKEND_URL);
         //setting the empty array as a json object of users got from the server
         setUsers(response.data);
 
