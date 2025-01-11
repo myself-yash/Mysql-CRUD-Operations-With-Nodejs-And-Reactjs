@@ -21,16 +21,16 @@ jobs:
 
     - name: Copy Files to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+        ssh -o -tt StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           cd ~/app || git clone https://github.com/myself-yash/Mysql-CRUD-Operations-With-Nodejs-And-Reactjs.git ~/app
           cd ~/app
           git pull origin main
-          cp -r ../secrets/ .
+          cp .env app/
         EOF
     - name: Deploy Docker Containers
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           cd ~/app
           docker-compose down
-          docker-compose --env-file secrets/backend.env --env-file secrets/db.env up -d
+          docker-compose up -d
         EOF
